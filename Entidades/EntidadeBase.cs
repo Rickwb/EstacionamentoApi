@@ -2,12 +2,8 @@
 
 namespace EstacionamentoApi.Entidades
 {
-    public class EntidadeBase
+    public interface IEntidadeBase
     {
-        public EntidadeBase()
-        {
-            Id = Guid.NewGuid();
-        }
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
     }
 }
