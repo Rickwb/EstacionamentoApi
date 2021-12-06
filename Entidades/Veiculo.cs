@@ -7,6 +7,7 @@ namespace EstacionamentoApi.Entidades
         private List<Veiculo> _veiculos;
         protected Veiculo(string placa)
         {
+            
             Placa = placa;
         }
 

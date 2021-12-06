@@ -7,7 +7,6 @@ namespace EstacionamentoApi.Entidades
         public Carro(string placa) : base(placa)
         {
             Id = Guid.NewGuid();
-
         }
 
         public Guid Id { get; init; }

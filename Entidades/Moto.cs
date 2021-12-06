@@ -4,8 +4,9 @@ namespace EstacionamentoApi.Entidades
 {
     public class Moto : Veiculo,IEntidadeBase
     {
-        public Moto(string placa, string modelo, string marca, Cliente cliente) : base(placa, modelo, marca, cliente)
+        public Moto(string placa) : base(placa)
         {
+            Id = Guid.NewGuid();
         }
 
         public Guid Id { get; init; }

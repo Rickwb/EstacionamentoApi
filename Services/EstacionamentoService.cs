@@ -28,17 +28,22 @@ namespace EstacionamentoApi.Services
         public IConfigurationSection ConfigurationMoto { get; set; }
 
 
-        public void CadastrarCliente(Cliente cli) => _clientes.Add(cli);
-        public List<Cliente> GetAllClientes(Cliente cli) => _clientes;
+        public Cliente CadastrarCliente(Cliente cli)
+        {
+            _clientes.Add(cli);
+            return cli;
+        }
+        public List<Cliente> GetAllClientes() => _clientes;
 
         public Cliente GetCliente(Guid idCliente) => (Cliente)_clientes.SingleOrDefault(c => c.Id == idCliente);
 
         public void RemoverCliente(Guid idCliente) => _clientes.Remove(GetCliente(idCliente));
 
-        public void AtualizarCliente(Guid idCliente, Cliente cliente)
+        public Cliente AtualizarCliente(Guid idCliente, Cliente cliente)
         {
             int index = _clientes.IndexOf(GetCliente(idCliente));
             _clientes.Insert(index, cliente);
+            return cliente;
         }
 
         public void RemoverTicket(Guid idTicket)
