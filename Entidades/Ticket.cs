@@ -15,7 +15,7 @@ namespace EstacionamentoApi.Entidades
         public DateTime HorarioChegada { get; private set; }
         public DateTime? HorarioSaida { get; set; }
         public decimal TotalPagar { get; set; }
-        public bool Pago { get; private set; }
+        public bool Pago { get; set; }
         public int Diaria { get; private set; }
         public bool Lavacao { get; private set; }
         public Guid Id { get; init; }

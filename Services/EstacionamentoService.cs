@@ -20,10 +20,11 @@ namespace EstacionamentoApi.Services
         {
             _clientes ??= new List<Cliente>();
             _tickets ??= new List<Ticket>();
+            _todosTickectsPagos ??= new List<Ticket>();
             ConfigurationCarro = configuration.GetSection("TabelaPrecosCarro");
             ConfigurationMoto = configuration.GetSection("TabelaPrecosMoto");
             QuantidadeVagas = configuration.GetValue<int>("QuantidadeVagas");
-            Estacionamento = new Estacionamento("EstacionamentoLocal","48798542364");
+            Estacionamento = new Estacionamento("EstacionamentoLocal", "48798542364");
 
         }
         public Estacionamento Estacionamento { get; set; }
@@ -34,8 +35,8 @@ namespace EstacionamentoApi.Services
 
         public Cliente CadastrarCliente(Cliente cli)
         {
-            
-            if (Estacionamento.QtdVagasOcupadas==QuantidadeVagas)
+
+            if (Estacionamento.QtdVagasOcupadas == QuantidadeVagas || ValidarPlacaIgual(cli))
             {
                 return null;
             }
@@ -57,19 +58,22 @@ namespace EstacionamentoApi.Services
         public Cliente AtualizarCliente(Guid idCliente, Cliente cliente)
         {
             int index = _clientes.IndexOf(GetCliente(idCliente));
-            _clientes.Insert(index, cliente);
-            return cliente;
+            if (ValidarPlacaIgual(cliente))
+            {
+                _clientes.Insert(index, cliente);
+                return cliente;
+
+            }
+            return null;
         }
 
         public void RemoverTicket(Guid idTicket)
         {
             var ti = _tickets.SingleOrDefault(t => t.Id == idTicket);
-            if (ti.Equals(ti.Cliente.TicketAtual))
-            {
-                _tickets.Remove(ti);
-                _todosTickectsPagos.Add(ti);
-                ti.Cliente.TicketAtual = new Ticket(ti.Cliente);
-            }
+
+            _tickets.Remove(ti);
+            _todosTickectsPagos.Add(ti);
+            ti.Cliente.TicketAtual = new Ticket(ti.Cliente);
         }
 
         public decimal CalcularValor(Guid idTicket)
@@ -119,6 +123,11 @@ namespace EstacionamentoApi.Services
 
             ti.TempoTotal = (TimeSpan)(ti.HorarioChegada - ti.HorarioSaida);
 
+        }
+
+        public bool ValidarPlacaIgual(Cliente cli)
+        {
+            return _clientes.Any(x => x.Veiculo.Placa == cli.Veiculo.Placa);
         }
     }
 }

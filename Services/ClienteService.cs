@@ -25,11 +25,12 @@ namespace EstacionamentoApi.Services
         {
             Guid idTi = cli.TicketAtual.Id;
             _Estacionamentoservice.CalcularTempo(idTi);
-            decimal valor = _Estacionamentoservice.CalcularValor(cli.TicketAtual.Id);
+            decimal valor = _Estacionamentoservice.CalcularValor(idTi);
+            cli.TicketAtual.Pago= cli.Saldo>valor?true:false;
             if (cli.TicketAtual.Pago)
             {
                 AdicionarTicketAntigo(cli.Id);
-                _Estacionamentoservice.RemoverTicket(cli.TicketAtual.Id);
+                _Estacionamentoservice.RemoverTicket(idTi);
                 return true;
             }
             else

@@ -28,7 +28,9 @@ namespace EstacionamentoApi.Controllers
                 cliente = new Cliente(
                     cpf: clienteDTO.Cpf,
                     nome: clienteDTO.Nome,
-                    veiculo: new Carro(clienteDTO.Carro.Placa)
+                    veiculo: new Carro(clienteDTO.Carro.Placa,
+                    clienteDTO.Carro.Modelo,
+                    clienteDTO.Carro.Marca)
                     );
             }
             else
@@ -36,7 +38,9 @@ namespace EstacionamentoApi.Controllers
                 cliente = new Cliente(
                    cpf: clienteDTO.Cpf,
                    nome: clienteDTO.Nome,
-                   veiculo: new Moto(clienteDTO.Moto.Placa)
+                   veiculo: new Moto(clienteDTO.Moto.Placa,
+                   clienteDTO.Moto.Modelo,
+                   clienteDTO.Moto.Marca)
                    );
 
             }
@@ -70,16 +74,20 @@ namespace EstacionamentoApi.Controllers
                 cliente = new Cliente(
                     cpf: clienteDTO.Cpf,
                     nome: clienteDTO.Nome,
-                    veiculo: new Carro(clienteDTO.Carro.Placa)
+                    veiculo: new Carro(clienteDTO.Carro.Placa,
+                    clienteDTO.Carro.Modelo,
+                    clienteDTO.Carro.Marca)
                     );
-                    
+
             }
             else
             {
                 cliente = new Cliente(
                    cpf: clienteDTO.Cpf,
                    nome: clienteDTO.Nome,
-                   veiculo: new Moto(clienteDTO.Moto.Placa)
+                   veiculo: new Moto(clienteDTO.Moto.Placa,
+                   clienteDTO.Moto.Modelo,
+                   clienteDTO.Moto.Marca)
                    );
 
             }
