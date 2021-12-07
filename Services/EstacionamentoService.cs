@@ -12,6 +12,7 @@ namespace EstacionamentoApi.Services
 
         private List<Ticket> _tickets;
         private List<Cliente> _clientes;
+        private List<Estacionamento> _estacionamentos;
         private List<Ticket> _todosTickectsPagos { get; set; }
         private ClienteService _clienteService;
 
@@ -22,8 +23,10 @@ namespace EstacionamentoApi.Services
             ConfigurationCarro = configuration.GetSection("TabelaPrecosCarro");
             ConfigurationMoto = configuration.GetSection("TabelaPrecosMoto");
             QuantidadeVagas = configuration.GetValue<int>("QuantidadeVagas");
+            Estacionamento = new Estacionamento("EstacionamentoLocal","48798542364");
 
         }
+        public Estacionamento Estacionamento { get; set; }
         public int QuantidadeVagas { get; set; }
         public IConfigurationSection ConfigurationCarro { get; set; }
         public IConfigurationSection ConfigurationMoto { get; set; }
@@ -31,12 +34,12 @@ namespace EstacionamentoApi.Services
 
         public Cliente CadastrarCliente(Cliente cli)
         {
-            var estacionamento = cli.Estacionamento;
-            if (estacionamento.QtdVagasOcupadas==QuantidadeVagas)
+            
+            if (Estacionamento.QtdVagasOcupadas==QuantidadeVagas)
             {
                 return null;
             }
-            estacionamento.QtdVagasOcupadas++;
+            Estacionamento.QtdVagasOcupadas++;
             _clientes.Add(cli);
             _tickets.Add(cli.TicketAtual);
             return cli;
@@ -47,8 +50,7 @@ namespace EstacionamentoApi.Services
 
         public bool RemoverCliente(Guid idCliente)
         {
-            var Estaciona= GetCliente(idCliente).Estacionamento;
-            Estaciona.QtdVagasOcupadas--;
+            Estacionamento.QtdVagasOcupadas--;
             return _clientes.Remove(GetCliente(idCliente));
         }
 

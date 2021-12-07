@@ -11,12 +11,10 @@ namespace EstacionamentoApi.Entidades
             Id = Guid.NewGuid();
             TicketAtual = new Ticket(this);
             Veiculo = veiculo;
-            Estacionamento = estacionamento;   
         }
         public string Nome { get; private set; }
         public string Cpf { get; private set; }
         public Ticket? TicketAtual { get; set; }
-        public Estacionamento Estacionamento { get; set; }
         public decimal Multas { get; set; }
         public Veiculo? Veiculo { get; init; }
         public Guid Id { get; init; }
