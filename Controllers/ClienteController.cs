@@ -15,7 +15,7 @@ namespace EstacionamentoApi.Controllers
             _clienteService = clienteService;
             _estacionamentoService = estacionamentoService;
         }
-        [HttpPost,Route("/{idCliente}")]
+        [HttpPost,Route("PagarEstacionamento/{idCliente}")]
         public IActionResult Pagar(Guid idCliente)
         {
             var cliente = _estacionamentoService.GetCliente(idCliente);

@@ -10,8 +10,7 @@ namespace EstacionamentoApi.DTOS
 
         public string Nome { get; set; }
         public string Cpf { get; set; }
-        public Estacionamento Estacionamento { get; set; }
-        public decimal Multas { get; set; }
+        public decimal Multas { get; private set; }
         public CarroDTO Carro { get; set; }
         public MotoDTO? Moto { get; set; }
         public override void Validar()

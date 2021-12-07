@@ -16,7 +16,7 @@ namespace EstacionamentoApi.Controllers
             _estacionamentoService = estacionamentoService;
             _clienteService = clienteService;
         }
-        [HttpPost,Route("/Estacionamento")]
+        [HttpPost,Route("/AdicionarCliente")]
         public IActionResult CadastraCliente(ClienteDTO clienteDTO)
         {
             clienteDTO.Validar();
@@ -26,16 +26,18 @@ namespace EstacionamentoApi.Controllers
             if (clienteDTO.Moto is null)
             {
                 cliente = new Cliente(
-                    cpf: clienteDTO.Nome,
-                    veiculo: new Carro(clienteDTO.Carro.Placa),
-                    estacionamento:clienteDTO.Estacionamento);
+                    cpf: clienteDTO.Cpf,
+                    nome: clienteDTO.Nome,
+                    veiculo: new Carro(clienteDTO.Carro.Placa)
+                    );
             }
             else
             {
                 cliente = new Cliente(
-                   cpf: clienteDTO.Nome,
-                   veiculo: new Moto(clienteDTO.Moto.Placa),
-                   estacionamento:clienteDTO.Estacionamento);
+                   cpf: clienteDTO.Cpf,
+                   nome: clienteDTO.Nome,
+                   veiculo: new Moto(clienteDTO.Moto.Placa)
+                   );
 
             }
 
@@ -66,18 +68,19 @@ namespace EstacionamentoApi.Controllers
             if (clienteDTO.Moto is null)
             {
                 cliente = new Cliente(
-                    cpf: clienteDTO.Nome,
-                    veiculo: new Carro(clienteDTO.Carro.Placa),
-                    estacionamento:clienteDTO.Estacionamento
+                    cpf: clienteDTO.Cpf,
+                    nome: clienteDTO.Nome,
+                    veiculo: new Carro(clienteDTO.Carro.Placa)
                     );
                     
             }
             else
             {
                 cliente = new Cliente(
-                   cpf: clienteDTO.Nome,
-                   veiculo: new Moto(clienteDTO.Moto.Placa),
-                   estacionamento:clienteDTO.Estacionamento);
+                   cpf: clienteDTO.Cpf,
+                   nome: clienteDTO.Nome,
+                   veiculo: new Moto(clienteDTO.Moto.Placa)
+                   );
 
             }
             return Ok(_estacionamentoService.AtualizarCliente(idCliente, cliente));
