@@ -7,7 +7,7 @@ using System;
 namespace EstacionamentoApi.Controllers
 {
     [ApiController, Route("[controller]")]
-    public class EstacionamentoController : Controller
+    public class EstacionamentoController : ControllerBase
     {
         private EstacionamentoService _estacionamentoService;
         private ClienteService _clienteService;
@@ -16,27 +16,33 @@ namespace EstacionamentoApi.Controllers
             _estacionamentoService = estacionamentoService;
             _clienteService = clienteService;
         }
-        [HttpPost]
+        [HttpPost,Route("/Estacionamento")]
         public IActionResult CadastraCliente(ClienteDTO clienteDTO)
         {
+            clienteDTO.Validar();
             if (!clienteDTO.Valido)
                 return BadRequest("Cliente Invalido");
             Cliente cliente;
-            if (clienteDTO.Veiculo is Carro)
+            if (clienteDTO.Moto is null)
             {
                 cliente = new Cliente(
                     cpf: clienteDTO.Nome,
-                    veiculo: new Carro("01245789"));
+                    veiculo: new Carro(clienteDTO.Carro.Placa),
+                    estacionamento:clienteDTO.Estacionamento);
             }
             else
             {
                 cliente = new Cliente(
                    cpf: clienteDTO.Nome,
-                   veiculo: new Moto(clienteDTO.Veiculo.Placa));
+                   veiculo: new Moto(clienteDTO.Moto.Placa),
+                   estacionamento:clienteDTO.Estacionamento);
 
             }
 
-            return Created("", _estacionamentoService.CadastrarCliente(cliente));
+            var cliReturn=_estacionamentoService.CadastrarCliente(cliente);
+            if (cliReturn != null) return Created("", cliReturn);
+            
+            return BadRequest();
         }
         [HttpGet]
         public IActionResult BuscarTodosClientes()
@@ -45,28 +51,33 @@ namespace EstacionamentoApi.Controllers
         }
 
         [HttpGet, Route("/{idCliente}")]
-        public IActionResult BuscarClienteId(Guid id)
+        public IActionResult BuscarClienteId(Guid idCliente)
         {
-            return Ok(_estacionamentoService.GetCliente(id));
+            return Ok(_estacionamentoService.GetCliente(idCliente));
         }
 
         [HttpPut, Route("/{idCliente}")]
         public IActionResult AtualizarCliente(Guid idCliente, ClienteDTO clienteDTO)
         {
+            clienteDTO.Validar();
             if (!clienteDTO.Valido) return BadRequest("Cliente Inválido");
 
             Cliente cliente;
-            if (clienteDTO.Veiculo is Carro)
+            if (clienteDTO.Moto is null)
             {
                 cliente = new Cliente(
                     cpf: clienteDTO.Nome,
-                    veiculo: new Carro("01245789"));
+                    veiculo: new Carro(clienteDTO.Carro.Placa),
+                    estacionamento:clienteDTO.Estacionamento
+                    );
+                    
             }
             else
             {
                 cliente = new Cliente(
                    cpf: clienteDTO.Nome,
-                   veiculo: new Moto(clienteDTO.Veiculo.Placa));
+                   veiculo: new Moto(clienteDTO.Moto.Placa),
+                   estacionamento:clienteDTO.Estacionamento);
 
             }
             return Ok(_estacionamentoService.AtualizarCliente(idCliente, cliente));
@@ -77,8 +88,10 @@ namespace EstacionamentoApi.Controllers
         {
             if (_estacionamentoService.RemoverCliente(idCliente))
             {
-
+                return NoContent();
             }
+            return BadRequest("Não foi possivel excluit os cliente");
+          
             
 
         }

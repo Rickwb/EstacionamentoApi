@@ -1,22 +1,25 @@
 ﻿using EstacionamentoApi.DTOS;
 using EstacionamentoApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace EstacionamentoApi.Controllers
 {
     [ApiController, Route("[controller]")]
-    public class ClienteController : Controller
+    public class ClienteController : ControllerBase
     {
         private ClienteService _clienteService;
-        public ClienteController(ClienteService clienteService)
+        private EstacionamentoService _estacionamentoService;
+        public ClienteController(ClienteService clienteService,EstacionamentoService estacionamentoService)
         {
             _clienteService = clienteService;
+            _estacionamentoService = estacionamentoService;
         }
-        public IActionResult CadastrarCliente(ClienteDTO clienteDTO)
+        [HttpPost,Route("/{idCliente}")]
+        public IActionResult Pagar(Guid idCliente)
         {
-            if (clienteDTO.Valido)
-
-            return View();
+            var cliente = _estacionamentoService.GetCliente(idCliente);
+            return Ok(_clienteService.FinalizarPedido(cliente));
         }
     }
 }

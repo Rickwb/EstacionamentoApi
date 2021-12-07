@@ -6,11 +6,12 @@ namespace EstacionamentoApi.Entidades
     public class Cliente:IEntidadeBase
     {
       
-        public Cliente(string cpf,Veiculo veiculo)
+        public Cliente(string cpf,Veiculo veiculo,Estacionamento estacionamento)
         {
             Id = Guid.NewGuid();
             TicketAtual = new Ticket(this);
             Veiculo = veiculo;
+            Estacionamento = estacionamento;   
         }
         public string Nome { get; private set; }
         public string Cpf { get; private set; }

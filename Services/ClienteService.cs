@@ -8,7 +8,11 @@ namespace EstacionamentoApi.Services
     {
         private EstacionamentoService _Estacionamentoservice;
         private List<Ticket> _ticketsAntigos;
-
+        public ClienteService(EstacionamentoService estacionamentoService)
+        {
+            _ticketsAntigos ??= new List<Ticket>();
+            _Estacionamentoservice = estacionamentoService;
+        }
         public void AdicionarTicketAntigo(Guid idCliente)
         {
             var cliente = _Estacionamentoservice.GetCliente(idCliente);
@@ -19,6 +23,8 @@ namespace EstacionamentoApi.Services
         }
         public bool FinalizarPedido(Cliente cli)
         {
+            Guid idTi = cli.TicketAtual.Id;
+            _Estacionamentoservice.CalcularTempo(idTi);
             decimal valor = _Estacionamentoservice.CalcularValor(cli.TicketAtual.Id);
             if (cli.TicketAtual.Pago)
             {

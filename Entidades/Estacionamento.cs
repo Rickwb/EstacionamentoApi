@@ -9,15 +9,13 @@ namespace EstacionamentoApi.Entidades
         public Estacionamento(string nome, string cnpj)
         {
             Id = Guid.NewGuid();
-            QtdVagasOcupadasCarro = 0;
-            QtdVagasOcupadasMoto = 0;
+            QtdVagasOcupadas = 0;
             Nome = nome;
             CNPJ = cnpj;
         }
         public string Nome { get; set; }
         public string CNPJ { get; set; }
-        public int QtdVagasOcupadasMoto { get; set; }
-        public int QtdVagasOcupadasCarro { get; set; }
+        public int QtdVagasOcupadas { get; set; }
         public Guid Id { get; init; }
     }
 }
